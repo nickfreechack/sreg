@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://6017p1crwahi"]
+
+[ext_resource type="Script" path="res://line_maker.gd" id="1_2kuoq"]
+
+[sub_resource type="Curve3D" id="Curve3D_af0in"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -0.980631, 0.800048, -0.0554774, 0, 0, 0, 0, 0, 0, 0.902444, 0.72312, -0.957563),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="LineMaker" type="Node3D"]
+script = ExtResource("1_2kuoq")
+line_radius = 0.2
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+polygon = PackedVector2Array(0, 0.2, 0.173205, -0.1, -0.173205, -0.1)
+mode = 2
+path_node = NodePath("../Path3D")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_af0in")
