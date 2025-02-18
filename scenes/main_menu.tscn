@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cqmq81043hc7y"]
 
-[ext_resource type="Script" path="res://main_menu.gd" id="1_kid7p"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_u7mc7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bekt1"]
 font_size = 40
@@ -15,7 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_kid7p")
+script = ExtResource("1_u7mc7")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

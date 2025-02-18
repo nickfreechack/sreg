@@ -39,7 +39,7 @@ func _on_restart_button_pressed():
 func _on_main_menu_button_pressed():
 	resume()
 	BackgroundMusic.stop_song()
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 
 func _on_quit_button_pressed():

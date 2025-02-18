@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://6017p1crwahi"]
 
-[ext_resource type="Script" path="res://line_maker.gd" id="1_2kuoq"]
+[ext_resource type="Script" path="res://scripts/line_maker.gd" id="1_2kuoq"]
 
 [sub_resource type="Curve3D" id="Curve3D_af0in"]
 _data = {

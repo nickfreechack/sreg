@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bkdhib5onw3ov"
+path="res://.godot/imported/circlemesh.obj-086e548b6060327bec3f71e2df1c112b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/circlemesh.obj-086e548b6060327bec3f71e2df1c112b.mesh"]
+
+source_file="res://assets/circlemesh.obj"
+dest_files=["res://.godot/imported/circlemesh.obj-086e548b6060327bec3f71e2df1c112b.mesh", "res://.godot/imported/circlemesh.obj-086e548b6060327bec3f71e2df1c112b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

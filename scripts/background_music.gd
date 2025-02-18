@@ -1,7 +1,7 @@
 extends Node3D
 
 func play_song1():
-	$AudioStreamPlayer.stream = preload("res://audio/TheInterSlam.mp3")
+	$AudioStreamPlayer.stream = preload("res://assets/audio/TheInterSlam.mp3")
 	$AudioStreamPlayer.play()
 	$AudioStreamPlayer.volume_db = -10.0
 # Called when the node enters the scene tree for the first time.

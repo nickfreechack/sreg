@@ -20,10 +20,10 @@ var ne_safe = false
 
 func _ready():
 	tethered_position = Vector3(0,0,0)
-	$Yippee.stream = preload("res://audio/yippee-tbh.mp3")
-	$Sploosh.stream = preload("res://audio/ww_salvatore_sploosh.mp3")
-	$Ohno.stream = preload("res://audio/oh-no.mp3")
-	$Yosh.stream = preload("res://audio/yosh.mp3")
+	$Yippee.stream = preload("res://assets/audio/yippee-tbh.mp3")
+	$Sploosh.stream = preload("res://assets/audio/ww_salvatore_sploosh.mp3")
+	$Ohno.stream = preload("res://assets/audio/oh-no.mp3")
+	$Yosh.stream = preload("res://assets/audio/yosh.mp3")
 	nw_safe = false
 	sw_safe = false
 	se_safe = false

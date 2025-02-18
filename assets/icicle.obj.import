@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bcs785ofk3lpu"
+path="res://.godot/imported/icicle.obj-5a5667a9f74f75b28b61d71a0848f9d1.mesh"
+
+[deps]
+
+files=["res://.godot/imported/icicle.obj-5a5667a9f74f75b28b61d71a0848f9d1.mesh"]
+
+source_file="res://assets/icicle.obj"
+dest_files=["res://.godot/imported/icicle.obj-5a5667a9f74f75b28b61d71a0848f9d1.mesh", "res://.godot/imported/icicle.obj-5a5667a9f74f75b28b61d71a0848f9d1.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
