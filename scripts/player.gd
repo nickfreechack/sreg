@@ -5,7 +5,7 @@ var cam_sensitivity := 0.08
 var twist_input := 0.0
 var pitch_input := 0.0
 
-var player_velocity = 3000.0
+var player_velocity = 2500.0
 
 @onready var twist_pivot := $TwistPivot
 @onready var pitch_pivot := $TwistPivot/PitchPivot

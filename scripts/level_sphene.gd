@@ -36,7 +36,7 @@ func _process(delta):
 	else:
 		$Triggers/Label3D.text = str("")
 	
-	if tethered_position.distance_to($Player.get_position()) > 54:
+	if tethered_position.distance_to($Player.get_position()) > 33:
 		$Tether/CSGPolygon3D.material_override = broken_tether
 		m1safe = true
 	else:
