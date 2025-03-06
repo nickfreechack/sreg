@@ -9,9 +9,13 @@ extends Node3D
 
 var in_trial := false
 var m1safe := false
+var m2estand := false
+var m2wstand := false
 var m2safe := false
 var tethered_position = Vector3(0,0,0)
 var ice := 0
+var fist_one := 0
+var fist_two := 0
 
 var nw_safe = false
 var sw_safe = false
@@ -24,10 +28,13 @@ func _ready():
 	$Sploosh.stream = preload("res://assets/audio/ww_salvatore_sploosh.mp3")
 	$Ohno.stream = preload("res://assets/audio/oh-no.mp3")
 	$Yosh.stream = preload("res://assets/audio/yosh.mp3")
+	$Gunshot.stream = preload("res://assets/audio/gunshot.mp3")
+	$Gunmiss.stream = preload("res://assets/audio/gunmiss.mp3")
 	nw_safe = false
 	sw_safe = false
 	se_safe = false
 	ne_safe = false
+	m2safe = false
 
 
 func _process(delta):
@@ -57,7 +64,7 @@ func _process(delta):
 
 
 func begin_trial():
-	ice = randi_range(1, 8)
+	ice = randi_range(1, 4) #temp modification for just the hard ones
 	##print(ice)
 	first_ice_visible()
 	get_node("WaitForSecondIceTimer").start()
@@ -150,8 +157,8 @@ func second_trial():
 		$Tether/CSGPolygon3D.visible = false
 		first_ice_invisible()
 		second_ice_invisible()
-		$Triggers/MainPlatTrigger.visible = true
 		get_node("SecondTrialTimer").start()
+		legitimate_force_prep()
 	else:
 		$Player.lock_rotation = false
 		$Sploosh.play()
@@ -159,19 +166,79 @@ func second_trial():
 		$Tether/CSGPolygon3D.visible = false
 		get_node("DeathTimer").start()
 
-func end_trial():
+func legitimate_force_prep():
+	fist_one = randi_range(1, 2)
+	if fist_one == 1:
+		$Spheren/MRightHand/GunCharge.visible = true
+		fist_two = 2
+	else:
+		$Spheren/MLeftHand/GunCharge.visible = true
+		fist_two = 1
+	await get_tree().create_timer(4.0).timeout
+	if fist_two == 1:
+		$Spheren/ORightHand/GunCharge.visible = true
+	else:
+		$Spheren/OLeftHand/GunCharge.visible = true
+
+func legitimate_force():
+	if fist_one == 1:
+		if m2estand == true:
+			$Gunmiss.play()
+			$Spheren/MRightHand/GunCharge.visible = false
+		else:
+			$Gunshot.play()
+			$Player.lock_rotation = false
+			$Player.death_rattle()
+			get_node("DeathTimer").start()
+	else:
+		if m2wstand == true:
+			$Gunmiss.play()
+			$Spheren/MLeftHand/GunCharge.visible = false
+		else:
+			$Gunshot.play()
+			$Player.lock_rotation = false
+			$Player.death_rattle()
+			get_node("DeathTimer").start()
+	
+	await get_tree().create_timer(3.0).timeout
+	if fist_two == 1:
+		if m2estand == true:
+			$Gunmiss.play()
+			$Spheren/ORightHand/GunCharge.visible = false
+			m2safe = true
+		else:
+			$Gunshot.play()
+			$Player.lock_rotation = false
+			$Player.death_rattle()
+			get_node("DeathTimer").start()
+			return
+	else:
+		if m2wstand == true:
+			$Gunmiss.play()
+			$Spheren/OLeftHand/GunCharge.visible = false
+			m2safe = true
+		else:
+			$Gunshot.play()
+			$Player.lock_rotation = false
+			$Player.death_rattle()
+			get_node("DeathTimer").start()
+			return
+	
+	resolve_trials()
+
+func resolve_trials():
 	if m2safe:
 		$Yosh.play()
 		$Triggers/StartTrigger.visible = true
-		$Triggers/MainPlatTrigger.visible = false
 		in_trial = false
 		nw_safe = false
 		sw_safe = false
 		se_safe = false
 		ne_safe = false
+		m2safe = false
 	else:
 		$Player.lock_rotation = false
-		$Sploosh.play()
+		$Ohno.play()
 		$Player.death_rattle()
 		$Tether/CSGPolygon3D.visible = false
 		get_node("DeathTimer").start()
@@ -280,4 +347,20 @@ func _on_main_plat_trigger_body_exited(body):
 
 
 func _on_second_trial_timer_timeout():
-	end_trial()
+	legitimate_force()
+
+
+func _on_stage_west_body_entered(body):
+	m2wstand = true
+
+
+func _on_stage_west_body_exited(body):
+	m2wstand = false
+
+
+func _on_stage_east_body_entered(body):
+	m2estand = true
+
+
+func _on_stage_east_body_exited(body):
+	m2estand = false

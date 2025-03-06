@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://co835sxjmwqpp"]
+[gd_scene load_steps=55 format=3 uid="uid://co835sxjmwqpp"]
 
 [ext_resource type="PackedScene" uid="uid://c11c681iajuem" path="res://scenes/player.tscn" id="1_76l3e"]
 [ext_resource type="Script" path="res://scripts/level_sphene.gd" id="1_pfqqn"]
@@ -12,10 +12,14 @@
 [ext_resource type="ArrayMesh" uid="uid://bkdhib5onw3ov" path="res://assets/circlemesh.obj" id="7_aiueh"]
 [ext_resource type="Texture2D" uid="uid://bqjoqit0dvpr4" path="res://assets/sphene_face2.png" id="8_eveo1"]
 [ext_resource type="Material" uid="uid://bfgmcvbudebjc" path="res://assets/broken_tether.tres" id="12_0af0q"]
+[ext_resource type="ArrayMesh" uid="uid://ctys5pa5xmkey" path="res://assets/pistolwithahoriblehand02.obj" id="12_cuml5"]
 [ext_resource type="AudioStream" uid="uid://bnan1n7x4n0n1" path="res://assets/audio/yippee-tbh.mp3" id="13_2kjwe"]
+[ext_resource type="Material" uid="uid://gns5s3m42qdg" path="res://assets/arm_mat_override.tres" id="13_2qkp4"]
 [ext_resource type="AudioStream" uid="uid://btibu604ftlxb" path="res://assets/audio/ww_salvatore_sploosh.mp3" id="14_ac8h0"]
 [ext_resource type="AudioStream" uid="uid://y14pqn84k233" path="res://assets/audio/oh-no.mp3" id="15_i5gdm"]
 [ext_resource type="AudioStream" uid="uid://brkybrbmwc1o3" path="res://assets/audio/yosh.mp3" id="16_e83vq"]
+[ext_resource type="AudioStream" uid="uid://c2u8ioe7sbyx3" path="res://assets/audio/gunshot.mp3" id="19_jglrb"]
+[ext_resource type="AudioStream" uid="uid://l7jf65sxyd5f" path="res://assets/audio/gunmiss.mp3" id="20_jpbmf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2vx2m"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -132,6 +136,9 @@ shader_parameter/Speed = Vector2(0, 0.8)
 material = SubResource("ShaderMaterial_usng3")
 size = Vector3(4, 10, 20)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_k0vrn"]
+size = Vector3(16, 4, 28)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xae3x"]
 albedo_texture = ExtResource("8_eveo1")
 
@@ -139,6 +146,17 @@ albedo_texture = ExtResource("8_eveo1")
 material = SubResource("StandardMaterial3D_xae3x")
 radius = 20.0
 height = 40.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_5e0xj"]
+radius = 6.0
+height = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mhg2p"]
+render_priority = 0
+shader = ExtResource("6_v2xkm")
+shader_parameter/Circle_Color = Color(1, 0.505882, 0, 1)
+shader_parameter/Extra_Opacity = null
+shader_parameter/Speed = Vector2(0, -1.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_02cj1"]
 
@@ -388,13 +406,73 @@ shape = SubResource("BoxShape3D_416f2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -2)
 mesh = SubResource("BoxMesh_rje3a")
 
+[node name="StageWest" type="Area3D" parent="Triggers"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/StageWest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3.5, -6)
+shape = SubResource("BoxShape3D_k0vrn")
+
+[node name="StageEast" type="Area3D" parent="Triggers"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/StageEast"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, -6)
+shape = SubResource("BoxShape3D_k0vrn")
+
 [node name="Spheren" type="Node3D" parent="."]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 16, -40)
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 16, -50)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Spheren"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 cast_shadow = 0
 mesh = SubResource("SphereMesh_1c5hr")
+
+[node name="MRightHand" type="MeshInstance3D" parent="Spheren"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -6, -15, 30)
+mesh = ExtResource("12_cuml5")
+skeleton = NodePath("../..")
+surface_material_override/1 = ExtResource("13_2qkp4")
+
+[node name="GunCharge" type="MeshInstance3D" parent="Spheren/MRightHand"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.5, -3.5)
+visible = false
+mesh = SubResource("SphereMesh_5e0xj")
+surface_material_override/0 = SubResource("ShaderMaterial_mhg2p")
+
+[node name="ORightHand" type="MeshInstance3D" parent="Spheren"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -16, -12, 30)
+mesh = ExtResource("12_cuml5")
+skeleton = NodePath("../..")
+surface_material_override/1 = ExtResource("13_2qkp4")
+
+[node name="GunCharge" type="MeshInstance3D" parent="Spheren/ORightHand"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.5, -3.5)
+visible = false
+mesh = SubResource("SphereMesh_5e0xj")
+surface_material_override/0 = SubResource("ShaderMaterial_mhg2p")
+
+[node name="MLeftHand" type="MeshInstance3D" parent="Spheren"]
+transform = Transform3D(-0.8, 0, 0, 0, 0.8, -6.99382e-08, 0, 6.99382e-08, 0.8, 6, -15, 30)
+mesh = ExtResource("12_cuml5")
+skeleton = NodePath("../..")
+surface_material_override/1 = ExtResource("13_2qkp4")
+
+[node name="GunCharge" type="MeshInstance3D" parent="Spheren/MLeftHand"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.5, -3.5)
+visible = false
+mesh = SubResource("SphereMesh_5e0xj")
+surface_material_override/0 = SubResource("ShaderMaterial_mhg2p")
+
+[node name="OLeftHand" type="MeshInstance3D" parent="Spheren"]
+transform = Transform3D(-0.8, 0, 0, 0, 0.806, -7.04628e-08, 0, 7.04628e-08, 0.806, 16, -12, 30)
+mesh = ExtResource("12_cuml5")
+skeleton = NodePath("../..")
+surface_material_override/1 = ExtResource("13_2qkp4")
+
+[node name="GunCharge" type="MeshInstance3D" parent="Spheren/OLeftHand"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.5, -3.5)
+visible = false
+mesh = SubResource("SphereMesh_5e0xj")
+surface_material_override/0 = SubResource("ShaderMaterial_mhg2p")
 
 [node name="TrialCountdown" type="Timer" parent="."]
 wait_time = 3.0
@@ -429,8 +507,14 @@ wait_time = 12.0
 one_shot = true
 
 [node name="SecondTrialTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 9.0
 one_shot = true
+
+[node name="SecondPunchTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="SecondFistCharge" type="Timer" parent="."]
+wait_time = 4.0
 
 [node name="BrokenTetherMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.90234, 18.9893, 0)
@@ -461,6 +545,12 @@ stream = ExtResource("15_i5gdm")
 [node name="Yosh" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_e83vq")
 
+[node name="Gunshot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_jglrb")
+
+[node name="Gunmiss" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("20_jpbmf")
+
 [connection signal="body_entered" from="Stage/IceBridgeNW/NWZone" to="." method="_on_nw_zone_body_entered"]
 [connection signal="body_entered" from="Stage/IceBridgeSW/SWZone" to="." method="_on_sw_zone_body_entered"]
 [connection signal="body_entered" from="Stage/IceBridgeNE/NEZone" to="." method="_on_ne_zone_body_entered"]
@@ -470,6 +560,10 @@ stream = ExtResource("16_e83vq")
 [connection signal="body_entered" from="Triggers/StartTrigger" to="." method="_on_start_trigger_body_entered"]
 [connection signal="body_entered" from="Triggers/MainPlatTrigger" to="." method="_on_main_plat_trigger_body_entered"]
 [connection signal="body_exited" from="Triggers/MainPlatTrigger" to="." method="_on_main_plat_trigger_body_exited"]
+[connection signal="body_entered" from="Triggers/StageWest" to="." method="_on_stage_west_body_entered"]
+[connection signal="body_exited" from="Triggers/StageWest" to="." method="_on_stage_west_body_exited"]
+[connection signal="body_entered" from="Triggers/StageEast" to="." method="_on_stage_east_body_entered"]
+[connection signal="body_exited" from="Triggers/StageEast" to="." method="_on_stage_east_body_exited"]
 [connection signal="timeout" from="TrialCountdown" to="." method="_on_trial_countdown_timeout"]
 [connection signal="timeout" from="IceTimerFirst" to="." method="_on_ice_timer_first_timeout"]
 [connection signal="timeout" from="WaitForSecondIceNE" to="." method="_on_wait_for_second_ice_ne_timeout"]
