@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqmq81043hc7y"]
+[gd_scene load_steps=5 format=3 uid="uid://cqmq81043hc7y"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_u7mc7"]
+[ext_resource type="Script" path="res://scripts/volume_slider.gd" id="2_ouht3"]
+[ext_resource type="Script" path="res://scripts/mute_button.gd" id="3_81552"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bekt1"]
 font_size = 40
@@ -57,5 +59,33 @@ layout_mode = 2
 focus_neighbor_bottom = NodePath("../StartButton")
 text = "Quit"
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.048
+anchor_bottom = 0.072
+offset_left = 1206.0
+offset_top = 503.0
+offset_right = 1206.84
+offset_bottom = 503.24
+
+[node name="VolumeLabel" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Volume"
+horizontal_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="VBoxContainer2"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+script = ExtResource("2_ouht3")
+
+[node name="MuteButton" type="CheckButton" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Mute:"
+script = ExtResource("3_81552")
+
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="value_changed" from="VBoxContainer2/VolumeSlider" to="VBoxContainer2/VolumeSlider" method="_on_value_changed"]
+[connection signal="toggled" from="VBoxContainer2/MuteButton" to="VBoxContainer2/MuteButton" method="_on_toggled"]

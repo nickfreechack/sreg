@@ -10,14 +10,16 @@ func _ready():
 
 func resume():
 	get_tree().paused = false
-	BackgroundMusic.resume_volume()
+	##BackgroundMusic.resume_volume()
 	$AnimationPlayer.play_backwards("blur")
+	$".".hide()
 
 func pause():
 	get_tree().paused = true
-	BackgroundMusic.pause_menu_volume()
+	##BackgroundMusic.pause_menu_volume()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$AnimationPlayer.play("blur")
+	$".".show()
 
 func _on_escape_pressed():
 	if !dead:

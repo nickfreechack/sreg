@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://8e408ver1q8g"]
+[gd_scene load_steps=10 format=3 uid="uid://8e408ver1q8g"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_56sek"]
 [ext_resource type="Shader" path="res://assets/pause_menu.gdshader" id="1_quxpy"]
+[ext_resource type="Script" path="res://scripts/volume_slider.gd" id="3_vwpln"]
+[ext_resource type="Script" path="res://scripts/mute_button.gd" id="4_6m1rd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_muiqt"]
 shader = ExtResource("1_quxpy")
@@ -182,6 +184,22 @@ focus_neighbor_top = NodePath("../QuitButton")
 focus_neighbor_bottom = NodePath("../RestartButton")
 text = "Resume"
 
+[node name="VolumeLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volume"
+horizontal_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+script = ExtResource("3_vwpln")
+
+[node name="MuteButton" type="CheckButton" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Mute:"
+script = ExtResource("4_6m1rd")
+
 [node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../ResumeButton")
@@ -204,6 +222,10 @@ libraries = {
 }
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/VolumeSlider" to="PanelContainer/VBoxContainer/VolumeSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/VolumeSlider" to="PanelContainer/VBoxContainer/MuteButton" method="_on_volume_slider_value_changed"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/MuteButton" to="PanelContainer/VBoxContainer/VolumeSlider" method="_on_mute_button_toggled"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/MuteButton" to="PanelContainer/VBoxContainer/MuteButton" method="_on_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
